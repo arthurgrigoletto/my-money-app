@@ -13,11 +13,12 @@ import { selectTab, showTabs } from '../common/tab/TabActions';
 import { create } from './BillingCycleActions';
 import List from './BillingCycleList';
 import Form from './BillingCycleForm';
+import { TAB_LIST, TAB_CREATE, TAB_UPDATE, TAB_DELETE } from '../main/types';
 
 class BillingCycle extends Component {
   componentDidMount() {
-    this.props.selectTab('tabList');
-    this.props.showTabs('tabList', 'tabCreate');
+    this.props.selectTab(TAB_LIST);
+    this.props.showTabs(TAB_LIST, TAB_CREATE);
   }
   render() {
     return (
@@ -26,22 +27,22 @@ class BillingCycle extends Component {
         <Content>
           <Tabs>
             <TabsHeader>
-              <TabHeader label="Listar" icon="bars" target="tabList" />
-              <TabHeader label="Incluir" icon="plus" target="tabCreate" />
-              <TabHeader label="Alterar" icon="pencil" target="tabUpdate" />
-              <TabHeader label="Excluir" icon="trash-o" target="tabDelete" />
+              <TabHeader label="Listar" icon="bars" target={TAB_LIST} />
+              <TabHeader label="Incluir" icon="plus" target={TAB_CREATE} />
+              <TabHeader label="Alterar" icon="pencil" target={TAB_UPDATE} />
+              <TabHeader label="Excluir" icon="trash-o" target={TAB_DELETE} />
             </TabsHeader>
             <TabsContent>
-              <TabContent id="tabList">
+              <TabContent id={TAB_LIST}>
                 <List />
               </TabContent>
-              <TabContent id="tabCreate">
-                <Form onSubmit={this.props.create} w/>
+              <TabContent id={TAB_CREATE}>
+                <Form onSubmit={this.props.create} />
               </TabContent>
-              <TabContent id="tabUpdate">
+              <TabContent id={TAB_UPDATE}>
                 <h1>Alterar</h1>
               </TabContent>
-              <TabContent id="tabDelete">
+              <TabContent id={TAB_DELETE}>
                 <h1>Excluir</h1>
               </TabContent>
             </TabsContent>
