@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 
 import labelAndInput from '../common/form/LabelAndInput';
+import { BILLING_CYCLES_FORM } from '../main/types';
 
 class BillingCycleForm extends Component {
   render() {
@@ -16,19 +17,21 @@ class BillingCycleForm extends Component {
             cols="12 4"
             placeholder="Informe o nome"
           />
-          <Field name="month" 
-            component={labelAndInput} 
-            type='number'
-            label='Mês'
-            cols='12 4'
+          <Field
+            name="month"
+            component={labelAndInput}
+            type="number"
+            label="Mês"
+            cols="12 4"
             placeholder="Informe o mês"
           />
-          <Field name="year" 
-            component={labelAndInput} 
-            type='number'
-            label='Ano'
-            cols='12 4'
-            placeholder="Informe o ano" 
+          <Field
+            name="year"
+            component={labelAndInput}
+            type="number"
+            label="Ano"
+            cols="12 4"
+            placeholder="Informe o ano"
           />
         </div>
         <div className="box-footer">
@@ -41,4 +44,7 @@ class BillingCycleForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'billingCycleForm' })(BillingCycleForm);
+export default reduxForm({
+  form: BILLING_CYCLES_FORM,
+  destroyOnUnmount: false
+})(BillingCycleForm);

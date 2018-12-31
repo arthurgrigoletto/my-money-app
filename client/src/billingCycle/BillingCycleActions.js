@@ -1,7 +1,13 @@
 import axios from 'axios';
-import { BILLING_CYCLES_FETCHED, BILLING_CYCLES_FORM, TAB_LIST, TAB_CREATE } from '../main/types';
+import {
+  BILLING_CYCLES_FETCHED,
+  BILLING_CYCLES_FORM,
+  TAB_LIST,
+  TAB_CREATE,
+  TAB_UPDATE
+} from '../main/types';
 import { toastr } from 'react-redux-toastr';
-import { reset as resetForm } from 'redux-form';
+import { reset as resetForm, initialize } from 'redux-form';
 import { showTabs, selectTab } from '../common/tab/TabActions';
 
 const BASE_URL = 'http://localhost:3003/api';
@@ -25,9 +31,17 @@ export const create = values => dispatch => {
         getList(),
         selectTab(TAB_LIST),
         showTabs(TAB_LIST, TAB_CREATE)
-      ])
+      ]);
     })
     .catch(err => {
       err.response.data.errors.map(error => toastr.error('Erro', error));
     });
+};
+
+export const showUpdate = billingCycle => {
+  return [
+    showTabs(TAB_UPDATE),
+    selectTab(TAB_UPDATE),
+    initialize(BILLING_CYCLES_FORM, billingCycle)
+  ];
 };
