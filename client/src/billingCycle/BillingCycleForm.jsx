@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -15,7 +15,8 @@ class BillingCycleForm extends Component {
       init,
       readOnly,
       submitClass,
-      submitLabel
+      submitLabel,
+      credits
     } = this.props;
     return (
       <form role="form" onSubmit={handleSubmit}>
@@ -46,7 +47,7 @@ class BillingCycleForm extends Component {
             placeholder="Informe o ano"
             readOnly={readOnly}
           />
-          <CreditList cols="12 6" readOnly={readOnly} />
+          <CreditList cols="12 6" list={credits} readOnly={readOnly} />
         </div>
         <div className="box-footer">
           <button type="submit" className={`btn btn-${submitClass}`}>
@@ -66,8 +67,14 @@ BillingCycleForm = reduxForm({
   destroyOnUnmount: false
 })(BillingCycleForm);
 
+const selector = formValueSelector(BILLING_CYCLES_FORM);
+
+const mapStateToProps = state => ({
+  credits: selector(state, 'credits')
+});
+
 const mapDispatchToProps = dispatch => bindActionCreators({ init }, dispatch);
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(BillingCycleForm);
