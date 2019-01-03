@@ -7,37 +7,44 @@ import Grid from '../common/layout/Grid';
 import Input from '../common/form/Input';
 import { BILLING_CYCLES_FORM } from '../main/types';
 
-class CreditList extends Component {
+class ItemList extends Component {
   add(index, item = {}) {
     if (!this.props.readOnly) {
-      this.props.arrayInsert(BILLING_CYCLES_FORM, 'credits', index, item);
+      this.props.arrayInsert(
+        BILLING_CYCLES_FORM,
+        this.props.field,
+        index,
+        item
+      );
     }
   }
 
   remove(index) {
     if (!this.props.readOnly && this.props.list.length > 1) {
-      this.props.arrayRemove(BILLING_CYCLES_FORM, 'credits', index);
+      this.props.arrayRemove(BILLING_CYCLES_FORM, this.props.field, index);
     }
   }
   renderRows() {
     const list = this.props.list || [];
 
+    const { field, readOnly } = this.props;
+
     return list.map((item, index) => (
       <tr key={index}>
         <td>
           <Field
-            name={`credits[${index}].name`}
+            name={`${field}[${index}].name`}
             component={Input}
             placeholder="Informe o nome"
-            readOnly={this.props.readOnly}
+            readOnly={readOnly}
           />
         </td>
         <td>
           <Field
-            name={`credits[${index}].value`}
+            name={`${field}[${index}].value`}
             component={Input}
             placeholder="Informe o valor"
-            readOnly={this.props.readOnly}
+            readOnly={readOnly}
           />
         </td>
         <td>
@@ -68,10 +75,11 @@ class CreditList extends Component {
   }
 
   render() {
+    const { cols, legend } = this.props;
     return (
-      <Grid cols={this.props.cols}>
+      <Grid cols={cols}>
         <fieldset>
-          <legend>Créditos</legend>
+          <legend>{legend}</legend>
           <table className="table">
             <thead>
               <tr>
@@ -94,4 +102,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   null,
   mapDispatchToProps
-)(CreditList);
+)(ItemList);
