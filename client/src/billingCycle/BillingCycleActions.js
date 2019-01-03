@@ -13,7 +13,8 @@ import { showTabs, selectTab } from '../common/tab/TabActions';
 
 const BASE_URL = 'http://localhost:3003/api';
 const INITIAL_VALUES = { 
-  credits: [{}] 
+  credits: [{}], 
+  debts: [{}] 
 };
 
 export const getList = () => {

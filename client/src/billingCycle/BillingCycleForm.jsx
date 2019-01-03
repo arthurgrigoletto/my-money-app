@@ -7,8 +7,18 @@ import LabelAndInput from '../common/form/LabelAndInput';
 import { init } from './BillingCycleActions';
 import { BILLING_CYCLES_FORM } from '../main/types';
 import ItemList from './ItemList';
+import Summary from './Summary';
 
 class BillingCycleForm extends Component {
+  calculateSummary() {
+    const sum = (t, v) => t + v;
+
+    return {
+      sumOfCredits: this.props.credits.map(c => +c.value || 0).reduce(sum),
+      sumOfDebts: this.props.debts.map(d => +d.value || 0).reduce(sum)
+    };
+  }
+
   render() {
     const {
       handleSubmit,
@@ -16,8 +26,12 @@ class BillingCycleForm extends Component {
       readOnly,
       submitClass,
       submitLabel,
-      credits
+      credits,
+      debts
     } = this.props;
+
+    const { sumOfCredits, sumOfDebts } = this.calculateSummary();
+
     return (
       <form role="form" onSubmit={handleSubmit}>
         <div className="box-body">
@@ -47,7 +61,22 @@ class BillingCycleForm extends Component {
             placeholder="Informe o ano"
             readOnly={readOnly}
           />
-          <ItemList cols="12 6" list={credits} field='credits' legend='Créditos' readOnly={readOnly} />
+          <Summary credit={sumOfCredits} debt={sumOfDebts} />
+          <ItemList
+            cols="12 6"
+            list={credits}
+            field="credits"
+            legend="Créditos"
+            readOnly={readOnly}
+          />
+          <ItemList
+            cols="12 6"
+            list={debts}
+            field="debts"
+            legend="Débitos"
+            readOnly={readOnly}
+            showStatus
+          />
         </div>
         <div className="box-footer">
           <button type="submit" className={`btn btn-${submitClass}`}>
@@ -70,7 +99,8 @@ BillingCycleForm = reduxForm({
 const selector = formValueSelector(BILLING_CYCLES_FORM);
 
 const mapStateToProps = state => ({
-  credits: selector(state, 'credits')
+  credits: selector(state, 'credits'),
+  debts: selector(state, 'debts')
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({ init }, dispatch);
