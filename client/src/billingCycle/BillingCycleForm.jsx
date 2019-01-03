@@ -3,19 +3,26 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import labelAndInput from '../common/form/LabelAndInput';
+import LabelAndInput from '../common/form/LabelAndInput';
 import { init } from './BillingCycleActions';
 import { BILLING_CYCLES_FORM } from '../main/types';
+import CreditList from './CreditList';
 
 class BillingCycleForm extends Component {
   render() {
-    const { handleSubmit, init, readOnly } = this.props;
+    const {
+      handleSubmit,
+      init,
+      readOnly,
+      submitClass,
+      submitLabel
+    } = this.props;
     return (
       <form role="form" onSubmit={handleSubmit}>
         <div className="box-body">
           <Field
             name="name"
-            component={labelAndInput}
+            component={LabelAndInput}
             label="Nome"
             cols="12 4"
             placeholder="Informe o nome"
@@ -23,7 +30,7 @@ class BillingCycleForm extends Component {
           />
           <Field
             name="month"
-            component={labelAndInput}
+            component={LabelAndInput}
             type="number"
             label="Mês"
             cols="12 4"
@@ -32,17 +39,18 @@ class BillingCycleForm extends Component {
           />
           <Field
             name="year"
-            component={labelAndInput}
+            component={LabelAndInput}
             type="number"
             label="Ano"
             cols="12 4"
             placeholder="Informe o ano"
             readOnly={readOnly}
           />
+          <CreditList cols="12 6" readOnly={readOnly} />
         </div>
         <div className="box-footer">
-          <button type="submit" className="btn btn-primary">
-            Submit
+          <button type="submit" className={`btn btn-${submitClass}`}>
+            {submitLabel}
           </button>
           <button type="button" className="btn btn-default" onClick={init}>
             Cancelar
